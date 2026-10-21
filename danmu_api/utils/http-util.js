@@ -595,14 +595,19 @@ export async function getPageTitle(url) {
 }
 
 export function jsonResponse(data, status = 200) {
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+  };
+  if (status === 200) {
+    headers["Cache-Control"] = "public, max-age=0, s-maxage=300";
+  }
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    }
+    headers
   });
 }
+
 
 export function xmlResponse(data, status = 200) {
   // 确保 data 是字符串且以 <?xml 开头
